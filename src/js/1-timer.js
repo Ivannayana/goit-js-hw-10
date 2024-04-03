@@ -63,10 +63,10 @@ flatpickr('#datetime-picker', options);
 
 // Функція для оновлення значень таймера
 function updateClockface({ days, hours, minutes, seconds }) {
-  daysTime.textContent = `${days}`;
-  hoursTime.textContent = `${hours}`;
-  minutesTime.textContent = `${minutes}`;
-  secondsTime.textContent = `${seconds}`;
+  daysTime.textContent = formatTimeValue(days);
+  hoursTime.textContent = formatTimeValue(hours);
+  minutesTime.textContent = formatTimeValue(minutes);
+  secondsTime.textContent = formatTimeValue(seconds);
 }
 
 // Функція для запуску таймера
@@ -93,6 +93,10 @@ function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
+function formatTimeValue(value) {
+  return addLeadingZero(value);
+}
+
 // Функція для конвертації мілісекунд у дні, години, хвилини та секунди
 function convertMs(time) {
   const second = 1000;
@@ -100,12 +104,10 @@ function convertMs(time) {
   const hour = minute * 60;
   const day = hour * 24;
 
-  const days = addLeadingZero(Math.floor(time / day));
-  const hours = addLeadingZero(Math.floor((time % day) / hour));
-  const minutes = addLeadingZero(Math.floor(((time % day) % hour) / minute));
-  const seconds = addLeadingZero(
-    Math.floor((((time % day) % hour) % minute) / second)
-  );
+  const days = Math.floor(time / day);
+  const hours = Math.floor((time % day) / hour);
+  const minutes = Math.floor(((time % day) % hour) / minute);
+  const seconds = Math.floor((((time % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
 }
