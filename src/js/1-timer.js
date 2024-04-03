@@ -19,7 +19,8 @@ let timerStarted = false;
 
 // Обробник події click для кнопки "Start"
 startBtn.addEventListener('click', () => {
-  if (!timerStarted) {
+  if (!timerStarted && timeDifference > 0) {
+    // Додано перевірку на те, чи вибрана дата у майбутньому
     startBtn.disabled = true;
     input.disabled = true;
     startTimer();
@@ -40,9 +41,9 @@ const options = {
 
     // Перевірка, чи вибрана дата у майбутньому
     if (userDate >= startDate) {
-      startBtn.disabled = false;
       timeDifference = userDate - startDate;
-      updateClockface(convertMs(timeDifference));
+      updateTimerDisplay(convertMs(timeDifference));
+      startBtn.disabled = false;
     } else {
       // Відображення помилки, якщо вибрана дата у минулому
       iziToast.error({
@@ -62,7 +63,7 @@ const options = {
 flatpickr('#datetime-picker', options);
 
 // Функція для оновлення значень таймера
-function updateClockface({ days, hours, minutes, seconds }) {
+function updateTimerDisplay({ days, hours, minutes, seconds }) {
   daysTime.textContent = formatTimeValue(days);
   hoursTime.textContent = formatTimeValue(hours);
   minutesTime.textContent = formatTimeValue(minutes);
@@ -79,7 +80,7 @@ function startTimer() {
 function timer() {
   if (timeDifference > 0) {
     timeDifference -= 1000;
-    updateClockface(convertMs(timeDifference));
+    updateTimerDisplay(convertMs(timeDifference));
   } else {
     // Зупинка таймера, якщо досягнутий нуль
     clearInterval(intervalId);
