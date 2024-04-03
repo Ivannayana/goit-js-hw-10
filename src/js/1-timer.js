@@ -12,16 +12,20 @@ const minutesTime = document.querySelector('[data-minutes]');
 const secondsTime = document.querySelector('[data-seconds]');
 const input = document.querySelector('#datetime-picker');
 
-// Обробник події click для кнопки "Start"
-startBtn.addEventListener('click', () => {
-  startBtn.disabled = true;
-  input.disabled = true;
-  startTimer();
-});
-
 // Оголошення змінних для таймера
 let timeDifference;
 let intervalId;
+let timerStarted = false;
+
+// Обробник події click для кнопки "Start"
+startBtn.addEventListener('click', () => {
+  if (!timerStarted) {
+    startBtn.disabled = true;
+    input.disabled = true;
+    startTimer();
+    timerStarted = true;
+  }
+});
 
 // Налаштування flatpickr
 const options = {
@@ -80,6 +84,7 @@ function timer() {
     // Зупинка таймера, якщо досягнутий нуль
     clearInterval(intervalId);
     input.disabled = false;
+    timerStarted = false;
   }
 }
 
