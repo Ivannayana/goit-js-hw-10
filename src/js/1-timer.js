@@ -22,7 +22,7 @@ startBtn.addEventListener('click', () => {
   if (!timerStarted && timeDifference > 0) {
     // Додано перевірку на те, чи вибрана дата у майбутньому
     startBtn.disabled = true;
-    input.disabled = true;
+    // input.disabled = true;
     startTimer();
     timerStarted = true;
   }
@@ -34,6 +34,11 @@ const options = {
   time_24hr: true,
   minuteIncrement: 1,
 
+  onChange() {
+    clearInterval(intervalId);
+    timerStarted = false;
+  },
+
   // Обробник події закриття календаря
   onClose(selectedDates) {
     const userDate = new Date(selectedDates[0]).getTime();
@@ -44,6 +49,7 @@ const options = {
       timeDifference = userDate - startDate;
       updateTimerDisplay(convertMs(timeDifference));
       startBtn.disabled = false;
+      //   input.disabled = true; // Блокуємо поле вводу після вибору дати
     } else {
       // Відображення помилки, якщо вибрана дата у минулому
       iziToast.error({
