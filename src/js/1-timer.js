@@ -22,7 +22,6 @@ startBtn.addEventListener('click', () => {
   if (!timerStarted && timeDifference > 0) {
     // Додано перевірку на те, чи вибрана дата у майбутньому
     startBtn.disabled = true;
-    // input.disabled = true;
     startTimer();
     timerStarted = true;
   }
@@ -30,9 +29,9 @@ startBtn.addEventListener('click', () => {
 
 // Налаштування flatpickr
 const options = {
-  enableTime: true,
-  time_24hr: true,
-  minuteIncrement: 1,
+  enableTime: false,
+  time_24hr: false,
+  minuteIncrement: 5,
 
   onChange() {
     clearInterval(intervalId);
@@ -49,7 +48,6 @@ const options = {
       timeDifference = userDate - startDate;
       updateTimerDisplay(convertMs(timeDifference));
       startBtn.disabled = false;
-      //   input.disabled = true; // Блокуємо поле вводу після вибору дати
     } else {
       // Відображення помилки, якщо вибрана дата у минулому
       iziToast.error({
@@ -84,24 +82,20 @@ function startTimer() {
 
 // Функція таймера
 function timer() {
-  if (timeDifference > 0) {
+  if (timeDifference > 1000) {
     timeDifference -= 1000;
     updateTimerDisplay(convertMs(timeDifference));
   } else {
+    updateTimerDisplay(convertMs(0));
     // Зупинка таймера, якщо досягнутий нуль
     clearInterval(intervalId);
-    input.disabled = false;
     timerStarted = false;
   }
 }
 
 // Функція для додавання ведучого нуля
-function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
-}
-
 function formatTimeValue(value) {
-  return addLeadingZero(value);
+  return String(value).padStart(2, '0');
 }
 
 // Функція для конвертації мілісекунд у дні, години, хвилини та секунди
