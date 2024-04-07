@@ -16,6 +16,7 @@ const input = document.querySelector('#datetime-picker');
 let timeDifference;
 let intervalId;
 let timerStarted = false;
+let userSelectedDate;
 
 // Обробник події click для кнопки "Start"
 startBtn.addEventListener('click', () => {
@@ -29,16 +30,10 @@ startBtn.addEventListener('click', () => {
 
 // Налаштування flatpickr
 const options = {
-  enableTime: false,
-  time_24hr: false,
-  minuteIncrement: 5,
-
-  onChange() {
-    clearInterval(intervalId);
-    timerStarted = false;
-  },
-
-  // Обробник події закриття календаря
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
   onClose(selectedDates) {
     const userDate = new Date(selectedDates[0]).getTime();
     const startDate = Date.now();
