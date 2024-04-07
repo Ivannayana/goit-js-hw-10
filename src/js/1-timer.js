@@ -16,7 +16,6 @@ const input = document.querySelector('#datetime-picker');
 let timeDifference;
 let intervalId;
 let timerStarted = false;
-let userSelectedDate;
 
 // Обробник події click для кнопки "Start"
 startBtn.addEventListener('click', () => {
